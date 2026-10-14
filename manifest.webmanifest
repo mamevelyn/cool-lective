@@ -1,0 +1,37 @@
+{
+  "id": "./",
+  "name": "PROJECT COOL-LECTIVE",
+  "short_name": "COOL-LECTIVE",
+  "description": "Community Observation, Outreach, and Local Action for Heat-Resilient Neighborhoods.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F8F5EE",
+  "theme_color": "#0A3154",
+  "lang": "en",
+  "categories": [
+    "education",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
