@@ -61,23 +61,81 @@ img,iframe{max-width:100%}
 .brand-cool{
   color:transparent;background:linear-gradient(105deg,#087D80 0%,#23AAAA 40%,#DDFBF7 51%,#087D80 63%,#087D80 100%);
   background-size:240% 100%;-webkit-background-clip:text;background-clip:text;
-  text-shadow:0 7px 22px rgba(8,125,128,.13);animation:coolShimmer 6s ease-in-out infinite
+  text-shadow:0 7px 22px rgba(8,125,128,.13);animation:coolShimmer 1.35s ease-in-out 1 both
 }
 .brand-lective{color:var(--navy)}
 @keyframes coolShimmer{0%,72%,100%{background-position:100% 0}82%{background-position:0 0}}
-.subtitle{max-width:760px;font-size:clamp(1.02rem,2vw,1.33rem);font-weight:760;line-height:1.45;color:var(--navy2)}
-.hero-action-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:760px;margin-top:16px;align-items:start}
-.hero-action-item{position:relative;min-width:0;text-align:center;padding:2px 4px;color:var(--navy);transition:transform .18s ease,filter .18s ease}
-.hero-action-item:hover{transform:translateY(-2px);filter:drop-shadow(0 7px 10px rgba(10,49,84,.08))}
-.hero-action-item:not(:last-child)::after{content:"→";position:absolute;top:17px;right:-13px;color:#A7BAB6;font-size:1rem;font-weight:900;line-height:1}
-.hero-action-icon{width:54px;height:54px;margin:0 auto 7px;display:grid;place-items:center;border-radius:17px;border:1px solid rgba(10,49,84,.07)}
-.hero-action-icon svg{width:29px;height:29px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.hero-action-label{display:block;font-size:.73rem;line-height:1.18;font-weight:950;letter-spacing:.045em;color:var(--navy)}
+.subtitle{
+  max-width:680px;margin:0;
+  font-size:clamp(1rem,1.65vw,1.18rem);font-weight:760;line-height:1.4;color:var(--navy2)
+}
+.subtitle-break{display:block}
+.subtitle-nowrap{white-space:nowrap}
+
+.hero-action-strip{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;
+  max-width:680px;margin-top:19px;align-items:start
+}
+.hero-action-item{
+  position:relative;min-width:0;text-align:center;padding:2px 4px;color:var(--navy);
+  opacity:0;transform:translateY(8px) scale(.96);
+  animation:heroActionEnter .36s cubic-bezier(.2,.75,.25,1) forwards;
+  outline:none
+}
+.hero-action-item:nth-child(1){animation-delay:1.50s}
+.hero-action-item:nth-child(2){animation-delay:1.68s}
+.hero-action-item:nth-child(3){animation-delay:1.86s}
+.hero-action-item:nth-child(4){animation-delay:2.04s}
+@keyframes heroActionEnter{
+  from{opacity:0;transform:translateY(8px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.hero-action-item:not(:last-child)::after{
+  content:"→";position:absolute;top:20px;right:-13px;
+  color:#A7BAB6;font-size:.9rem;font-weight:900;line-height:1;
+  opacity:0;transform:translateX(-3px);
+  animation:heroArrowEnter .16s ease-out forwards
+}
+.hero-action-item:nth-child(1)::after{animation-delay:1.62s}
+.hero-action-item:nth-child(2)::after{animation-delay:1.80s}
+.hero-action-item:nth-child(3)::after{animation-delay:1.98s}
+@keyframes heroArrowEnter{
+  from{opacity:0;transform:translateX(-3px)}
+  to{opacity:.82;transform:translateX(0)}
+}
+.hero-action-icon{
+  width:54px;height:54px;margin:0 auto 8px;display:grid;place-items:center;
+  border-radius:17px;border:1px solid rgba(10,49,84,.07);
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease,border-color .18s ease
+}
+.hero-action-icon svg{
+  width:29px;height:29px;display:block;fill:none;stroke:currentColor;
+  stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round
+}
+.hero-action-label{
+  display:block;font-size:.72rem;line-height:1.16;font-weight:950;
+  letter-spacing:.045em;color:var(--navy)
+}
+.hero-action-item:hover .hero-action-icon,
+.hero-action-item:focus-visible .hero-action-icon{
+  transform:translateY(-4px);filter:saturate(1.12);
+  box-shadow:0 8px 18px rgba(10,49,84,.11)
+}
+.hero-action-item:focus-visible .hero-action-icon{
+  outline:2px solid rgba(8,125,128,.32);outline-offset:3px
+}
 .hero-action-item.action-heat .hero-action-icon{color:var(--orange);background:#FFF0E5;border-color:#F3D6C3}
 .hero-action-item.action-cool .hero-action-icon{color:var(--teal);background:#E9F5F3;border-color:#CDE5E0}
 .hero-action-item.action-plan .hero-action-icon{color:var(--navy);background:#EAF0F5;border-color:#D4E0E9}
 .hero-action-item.action-together .hero-action-icon{color:var(--green);background:#EDF5EA;border-color:#D6E5D1}
-.hero-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px;max-width:780px}
+
+.hero-actions{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+  max-width:680px;margin-top:19px
+}
+.hero-actions .btn{
+  width:100%;min-height:46px;display:inline-flex;align-items:center;justify-content:center
+}
 .btn{
   border:0;border-radius:999px;padding:12px 15px;font-weight:900;text-align:center;white-space:nowrap;
   transition:transform .18s ease,box-shadow .18s ease,filter .18s ease
@@ -85,6 +143,27 @@ img,iframe{max-width:100%}
 .btn:hover{transform:translateY(-1px);text-decoration:none}.btn.primary{background:var(--navy);color:#fff;box-shadow:0 8px 18px rgba(10,49,84,.17)}
 .btn.teal{background:var(--teal);color:#fff}.btn.light{background:#EFF7F5;color:var(--teal);border:1px solid #D5E7E2}.btn.orange-btn{background:var(--orange);color:#fff}
 .btn.full{width:100%;border-radius:14px}.btn.small{padding:9px 13px;font-size:.82rem}
+
+.install-utility{
+  appearance:none;border:1px solid #D4E5DF;background:rgba(255,255,255,.68);color:var(--teal);
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:max-content;max-width:100%;margin:10px auto 0;padding:7px 12px;border-radius:999px;
+  font:inherit;text-align:left;cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease
+}
+.install-utility:hover,.install-utility:focus-visible{
+  transform:translateY(-2px);background:#F6FBF9;border-color:#BFDAD1;
+  box-shadow:0 7px 16px rgba(10,49,84,.08);outline:none
+}
+.install-utility:focus-visible{outline:2px solid rgba(8,125,128,.28);outline-offset:2px}
+.install-utility svg{
+  flex:0 0 auto;width:19px;height:19px;fill:none;stroke:var(--orange);
+  stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round
+}
+.install-utility-copy{display:flex;flex-direction:column;line-height:1.16}
+.install-utility-copy strong{font-size:.78rem;color:var(--teal)}
+.install-utility-copy small{margin-top:2px;font-size:.66rem;font-weight:700;color:var(--muted)}
+
 .hero-panel{background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border:1px solid rgba(8,125,128,.12);border-radius:23px;padding:21px;box-shadow:0 12px 30px rgba(10,49,84,.06)}
 .hero-statement{font-size:1.28rem;line-height:1.18;color:var(--navy);font-weight:950;margin:4px 0 13px}
 .hero-statement em{font-style:normal;color:var(--teal)}
@@ -226,18 +305,23 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 @media(max-width:650px){.heat-live-panel{padding:20px 18px 17px}.heat-integrity-note{padding:10px 18px}.forecast-wrap{padding:17px}.forecast-table{font-size:.75rem}.forecast-table th,.forecast-table td{padding:9px 7px}.route-section{padding:14px}.route-section-head{flex-direction:column}.sdg-icons{grid-template-columns:repeat(2,minmax(0,1fr))}.sdg-logo-card{padding:10px}.modal{padding:17px}.quiz-q label{padding:9px}}
 @media(max-width:390px){.sdg-icons{grid-template-columns:1fr 1fr}.sdg-logo-card{padding:9px}.sdg-logo-card p{font-size:.66rem}.forecast-status{white-space:normal}}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.hero-action-item{transition:none!important}}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .brand-cool{background-position:100% 0!important}
+  .hero-action-item,.hero-action-item::after{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+  .hero-action-icon,.install-utility{transition:none!important}
+}
 @media(max-width:920px){
   .hero{grid-template-columns:1fr;padding:27px}.two{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hero-action-strip{gap:12px;max-width:720px}.hero-action-icon{width:50px;height:50px}.hero-action-icon svg{width:27px;height:27px}
+  .subtitle{max-width:680px}.hero-action-strip{gap:13px;max-width:680px}.hero-action-icon{width:50px;height:50px}.hero-action-icon svg{width:27px;height:27px}.hero-actions{max-width:680px}
   .sdg-line{align-items:flex-start;flex-direction:column}.sdg-icons{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
 }
 @media(max-width:650px){
   .shell{padding:9px}.hero{border-radius:22px;padding:22px 18px;min-height:0}
   .brand-project{font-size:2.15rem}.brand-name{display:block;font-size:3.55rem;line-height:.83}.brand-cool,.brand-lective{display:block}.brand-lective{font-size:.82em;margin-top:.05em}
-  .subtitle{font-size:1rem}
-  .hero-action-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;max-width:420px;margin-top:13px}.hero-action-item{padding:1px 3px}.hero-action-item:not(:last-child)::after{display:none}.hero-action-icon{width:48px;height:48px;margin-bottom:6px;border-radius:15px}.hero-action-icon svg{width:26px;height:26px}.hero-action-label{font-size:.72rem}
-  .hero-actions{grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.hero-actions .btn{font-size:.83rem;min-height:48px;padding:11px 8px}.hero-actions .btn:nth-child(3){grid-column:1/-1}.hero-actions .btn:nth-child(4){grid-column:1/-1}
+  .subtitle{font-size:.98rem;max-width:100%}.subtitle-break{display:none}.subtitle-nowrap{white-space:normal}
+  .hero-action-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 12px;max-width:410px;margin-top:16px}.hero-action-item{padding:1px 3px}.hero-action-item:not(:last-child)::after{display:none}.hero-action-icon{width:48px;height:48px;margin-bottom:6px;border-radius:15px}.hero-action-icon svg{width:26px;height:26px}.hero-action-label{font-size:.71rem}
+  .hero-actions{grid-template-columns:1fr;gap:8px;max-width:100%;margin-top:17px}.hero-actions .btn{font-size:.85rem;min-height:46px;padding:11px 10px}.install-utility{margin-top:9px}
   .tab-wrap{top:4px;border-radius:16px;margin-top:12px}.tab{min-width:107px}
   .section-head{flex-direction:column;align-items:flex-start}.form-two,.check-grid,.checkpoint-grid,.extra-options,.evidence-examples{grid-template-columns:1fr}
   .map-frame{height:340px}.map-pin{width:64px;height:64px;margin-bottom:105px}.map-pin i{width:22px;height:22px}.map-launch-copy{bottom:16px;width:90%;padding:12px}.map-launch-copy strong{font-size:1rem}.iheat-launch{min-height:0;padding:18px;align-items:flex-start}.map-mini{display:none}
@@ -245,8 +329,8 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
   footer{align-items:flex-start;flex-direction:column}
 }
 @media(max-width:390px){
-  .hero-actions{grid-template-columns:1fr}.hero-actions .btn:nth-child(3),.hero-actions .btn:nth-child(4){grid-column:auto}
-  .brand-name{font-size:3.15rem}.hero-action-strip{gap:10px 7px;margin-top:11px}.hero-action-icon{width:44px;height:44px;border-radius:14px}.hero-action-icon svg{width:24px;height:24px}.hero-action-label{font-size:.68rem;letter-spacing:.035em}.sdg-icons{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.sdg-logo-card img{max-width:132px}
+  .hero-actions{grid-template-columns:1fr}
+  .brand-name{font-size:3.15rem}.hero-action-strip{gap:11px 8px;margin-top:14px}.hero-action-icon{width:44px;height:44px;border-radius:14px}.hero-action-icon svg{width:24px;height:24px}.hero-action-label{font-size:.67rem;letter-spacing:.035em}.install-utility{width:100%;justify-content:center;border-radius:14px}.sdg-icons{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.sdg-logo-card img{max-width:132px}
 }
 </style>
 </head>
@@ -255,69 +339,85 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 <header class="hero">
   <span class="cool-orbit orbit-one"></span><span class="cool-orbit orbit-two"></span>
   <span class="cool-drop drop-one"></span><span class="cool-drop drop-two"></span>
-  <div>
+  <div class="hero-main">
     <div class="eyebrow">COMMUNITY HEAT RESILIENCE</div>
     <h1 class="brand-title">
       <span class="brand-project">PROJECT</span>
       <span class="brand-name"><span class="brand-cool">COOL</span><span class="brand-lective">-LECTIVE</span></span>
     </h1>
-    <p class="subtitle">Community Observation, Outreach, and Local Action for Heat-Resilient Neighborhoods</p>
+    <p class="subtitle">Community Observation, Outreach, and<span class="subtitle-break"></span> Local Action for <span class="subtitle-nowrap">Heat-Resilient Neighborhoods</span></p>
+
     <div class="hero-action-strip" aria-label="COOL-LECTIVE action sequence">
-      <div class="hero-action-item action-heat">
+      <div class="hero-action-item action-heat" tabindex="0" aria-label="Check the Heat">
         <span class="hero-action-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="8.5" cy="8" r="3.1"></circle>
-            <path d="M8.5 2.2v1.3M8.5 12.5v1.3M2.7 8h1.3M13 8h1.3M4.4 3.9l.9.9M11.7 11.2l.9.9M4.4 12.1l.9-.9M11.7 4.8l.9-.9"></path>
-            <path d="M17.3 5.2v8.1a3.5 3.5 0 1 0 3.4 0V5.2a1.7 1.7 0 0 0-3.4 0Z"></path>
-            <path d="M19 9.2v5.8"></path>
+            <circle cx="8" cy="8" r="3"></circle>
+            <path d="M8 2v1.4M8 12.6V14M2 8h1.4M12.6 8H14M3.8 3.8l1 1M11.2 11.2l1 1M3.8 12.2l1-1M11.2 4.8l1-1"></path>
+            <path d="M17 5.4v7.8a3.6 3.6 0 1 0 4 0V5.4a2 2 0 0 0-4 0Z"></path>
+            <path d="M19 9.1v6"></path>
           </svg>
         </span>
         <span class="hero-action-label">CHECK THE<br>HEAT</span>
       </div>
-      <div class="hero-action-item action-cool">
+
+      <div class="hero-action-item action-cool" tabindex="0" aria-label="Find the Cool">
         <span class="hero-action-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"></path>
-            <path d="M9.2 11.6c1.8-3 5.1-3.7 7.3-3.5-.3 2.9-2.2 5.3-5.2 5.8-1.3.2-2.3-.3-2.1-2.3Z"></path>
-            <path d="M9.8 13.3c1.5-1.5 3.1-2.6 5-3.4"></path>
+            <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"></path>
+            <path d="M9.3 11.9c1.7-3 4.9-3.8 7.2-3.5-.3 2.8-2.1 5.1-5 5.7-1.4.3-2.4-.4-2.2-2.2Z"></path>
+            <path d="M9.9 13.4c1.4-1.5 3-2.6 4.9-3.4"></path>
           </svg>
         </span>
         <span class="hero-action-label">FIND THE<br>COOL</span>
       </div>
-      <div class="hero-action-item action-plan">
+
+      <div class="hero-action-item action-plan" tabindex="0" aria-label="Plan Safely">
         <span class="hero-action-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M3.5 6.2h7.2M3.5 11.2h5.2M3.5 16.2h4.1"></path>
-            <circle cx="4.1" cy="6.2" r=".8"></circle>
-            <circle cx="8.1" cy="11.2" r=".8"></circle>
-            <path d="M10.8 16.6c1.7-2.9 2.7-5.4 2.5-8.2"></path>
-            <path d="M16.8 6.4 21 8v3.7c0 3.1-1.7 5.7-4.2 7.2-2.5-1.5-4.2-4.1-4.2-7.2V8l4.2-1.6Z"></path>
+            <path d="M3.5 6h7M3.5 10.5h5.2M3.5 15h4.2"></path>
+            <circle cx="4.1" cy="6" r=".75"></circle>
+            <circle cx="8.1" cy="10.5" r=".75"></circle>
+            <path d="M10.4 16.5c1.8-2.7 2.8-5.4 2.5-8.2"></path>
+            <path d="M16.8 6.3 21 8v3.7c0 3.1-1.7 5.7-4.2 7.2-2.5-1.5-4.2-4.1-4.2-7.2V8l4.2-1.7Z"></path>
             <path d="m14.8 12 1.3 1.3 2.5-2.6"></path>
           </svg>
         </span>
         <span class="hero-action-label">PLAN<br>SAFELY</span>
       </div>
-      <div class="hero-action-item action-together">
+
+      <div class="hero-action-item action-together" tabindex="0" aria-label="Act Together">
         <span class="hero-action-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="12" cy="7" r="2.1"></circle>
-            <circle cx="5.7" cy="10" r="1.7"></circle>
-            <circle cx="18.3" cy="10" r="1.7"></circle>
-            <path d="M8.6 18c.3-3 1.5-4.8 3.4-4.8s3.1 1.8 3.4 4.8"></path>
+            <circle cx="12" cy="6.8" r="2"></circle>
+            <circle cx="5.7" cy="9.8" r="1.65"></circle>
+            <circle cx="18.3" cy="9.8" r="1.65"></circle>
+            <path d="M8.7 18c.3-3 1.4-4.8 3.3-4.8s3 1.8 3.3 4.8"></path>
             <path d="M2.8 18c.2-2.4 1.2-3.8 2.9-3.8 1.4 0 2.4.9 2.7 2.4M21.2 18c-.2-2.4-1.2-3.8-2.9-3.8-1.4 0-2.4.9-2.7 2.4"></path>
-            <path d="M7.2 12.4 10 11M16.8 12.4 14 11"></path>
+            <path d="M7.3 12.2 10 11M16.7 12.2 14 11"></path>
           </svg>
         </span>
         <span class="hero-action-label">ACT<br>TOGETHER</span>
       </div>
     </div>
+
     <div class="hero-actions">
       <button class="btn primary" data-open="heat">Check the Heat</button>
       <button class="btn teal" data-open="map">Find the Cool</button>
       <button class="btn light" data-open="plan">Build My Plan</button>
-      <button id="installBtn" class="btn orange-btn hidden">Install App</button>
     </div>
+
+    <button id="installBtn" class="install-utility hidden" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="6.5" y="2.5" width="11" height="19" rx="2.2"></rect>
+        <path d="M9.5 5.2h5M12 8.2v7.1M9.5 12.8 12 15.3l2.5-2.5M10.5 18.5h3"></path>
+      </svg>
+      <span class="install-utility-copy">
+        <strong>Use the Offline App</strong>
+        <small>For easier access on your device</small>
+      </span>
+    </button>
   </div>
+
   <aside class="hero-panel">
     <div class="hero-statement">COOL-LECTIVE begins where a <em>weather alert ends.</em></div>
     <div class="flow">
