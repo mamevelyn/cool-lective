@@ -460,6 +460,7 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
     <button class="tab active" data-section="heat"><span class="tab-ico">☀</span>HEAT NOW</button>
     <button class="tab" data-section="map"><span class="tab-ico">⌖</span>COOL MAP</button>
     <button class="tab" data-section="space"><span class="tab-ico">▦</span>SPACE CHECK</button>
+    <button class="tab" data-section="report"><span class="tab-ico">✎</span>REPORT A ZONE</button>
     <button class="tab" data-section="plan"><span class="tab-ico">➜</span>MY COOL PLAN</button>
     <button class="tab" data-section="care"><span class="tab-ico">♡</span>EXTRA CARE</button>
     <button class="tab" data-section="points"><span class="tab-ico">★</span>COOL POINTS</button>
@@ -550,38 +551,38 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
       <p class="privacy-note">Starting checkpoints are prompts for fieldwork. Only verified observations should be presented as project evidence.</p>
     </article>
     <article class="card">
-      <span class="kicker teal-text">ADD A LOCAL OBSERVATION</span><h3>Community site record</h3><p class="validation-note"><b>Accountability Flow:</b> Raw crowd-sourced or student-submitted logs do not go live instantly. Every entry passes through a strict validation line verified and signed by the School Disaster Risk Reduction and Management (DRRM) Officer before updating the Live Dashboard.</p>
-      <div class="field"><label for="siteName">Site / location</label><input id="siteName" placeholder="e.g., Gate waiting area"></div>
-      <div class="form-two">
-        <div class="field"><label for="siteType">Observed need / resource</label><select id="siteType"><option>Limited shade / shelter</option><option>Airflow / ventilation concern</option><option>Water / refill access</option><option>Rest / cooling space</option><option>Exposed route</option><option>Tree / canopy resource</option><option>Other protection gap</option></select></div>
-        <div class="field"><label for="siteStatus">Validation status</label><select id="siteStatus"><option>REPORTED</option><option>CHECKED</option><option>VALIDATED</option><option>ACTIONED</option><option>MONITORED</option></select></div>
+      <span class="kicker orange">VALIDATED MAPPING PATHWAY</span><h3>HOW A LOCATION ENTERS THE COOL MAP</h3>
+      <p class="validation-note"><b>Mapped information is evidence, not an instant post.</b> Community observations stay separate from the COOL MAP until the approved checking and validation steps are complete.</p>
+      <div class="info-list">
+        <div><b>1</b><span>A learner or community member submits an observation through <strong>REPORT A ZONE</strong>.</span></div>
+        <div><b>2</b><span>The report is screened for completeness, privacy, duplication, and pilot coverage.</span></div>
+        <div><b>3</b><span>Assigned monitors may conduct a <strong>COOL SPACE CHECK</strong> when a structured site assessment is needed.</span></div>
+        <div><b>4</b><span>A designated validator reviews the available evidence.</span></div>
+        <div><b>5</b><span>Only validated information is added to the COOL MAP and Community Evidence Dashboard.</span></div>
+        <div><b>6</b><span>The location is tracked and rechecked as conditions change.</span></div>
       </div>
-      <div class="field"><label for="siteVerifier">School DRRM Officer verification / signature reference</label><input id="siteVerifier" placeholder="Required before VALIDATED, ACTIONED, or MONITORED records can enter the Live Dashboard"></div>
-      <label class="verify-check"><input id="siteVerifiedCheck" type="checkbox"><span>I confirm this record has been checked and signed by the School DRRM Officer before it is promoted to the Live Dashboard.</span></label>
-      <div class="form-two">
-        <div class="field"><label for="siteUsers">Observed users / peak period</label><input id="siteUsers" type="number" min="0" placeholder="Optional"></div>
-        <div class="field"><label for="siteTime">Observation time</label><input id="siteTime" type="time"></div>
-      </div>
-      <div class="field"><label for="siteFactor">Possible contributing factor</label><select id="siteFactor"><option value="">Not identified yet</option><option>Direct afternoon sun</option><option>Limited tree / shade cover</option><option>Dark or heat-absorbing roof / pavement</option><option>Possible reflected sunlight / radiant heat from nearby metal roof or surface — TO VERIFY</option><option>Limited airflow / blocked ventilation</option><option>High occupancy / long waiting time</option><option>Other factor — TO VERIFY</option></select></div>
-      <div class="field"><label for="siteAction">Possible response to examine</label><select id="siteAction"><option value="">Not selected yet</option><option>Shade / waiting shed</option><option>Fan repair / ventilation improvement</option><option>Window shading / screening</option><option>Water / refill access</option><option>Move waiting point to existing shade</option><option>Protect mature tree / add long-term greening</option><option>Further measurement before deciding</option></select></div>
-      <div class="field"><label for="siteObs">Observation / evidence note</label><textarea id="siteObs" placeholder="What was observed, when, and how often?"></textarea></div>
-      <button id="addSite" class="btn teal full">Save observation</button><div id="siteList" class="records"></div>
+      <button class="btn light full" type="button" data-open="report" aria-label="Open Report a Zone">REPORT A ZONE</button>
     </article>
   </div>
 </section>
 
 <section id="space" class="view">
-  <div class="section-head"><div><span class="kicker orange">PHASE 3 · CAMPUS PILOT TESTING &amp; DECOUPLED INFRASTRUCTURE</span><h2>COOL SPACE CHECK</h2><p>Review San Guillermo National High School classrooms and facilities for recurring protection gaps using repeated, supervised observation. Current campus focus: the <b>E Building</b> recurring before-noon and afternoon heat-discomfort pattern and the neighboring <b>Grade 9 Building metal roof</b> as a possible reflected-sunlight / radiant-heat factor for validation.</p><p class="policy-note"><b>DepEd Anti-Distraction Policy Compliant: This tracking workflow strictly prohibits active student personal cellphone use during class hours. Field observations are recorded onto physical paper ledgers by classroom health leaders and encoded only during non-class hours using a single, supervised shared computer terminal.</b></p></div></div>
+  <div class="section-head"><div><span class="kicker orange">PHASE 3 · CAMPUS PILOT TESTING &amp; DECOUPLED INFRASTRUCTURE</span><h2>COOL SPACE CHECK</h2><p>Review San Guillermo National High School classrooms and facilities for recurring protection gaps using repeated, supervised observation. Current campus focus: the <b>E Building</b> recurring before-noon and afternoon heat-discomfort pattern and the neighboring <b>Grade 9 Building metal roof</b> as a possible reflected-sunlight / radiant-heat factor for validation.</p><p class="validation-note"><b>COOL SPACE CHECK is a structured field-assessment tool for assigned monitors.</b> It is used to examine a selected location through consistent observation criteria. It is not the general community reporting channel.</p><p class="policy-note"><b>DepEd Anti-Distraction Policy Compliant: This tracking workflow strictly prohibits active student personal cellphone use during class hours. Field observations are recorded onto physical paper ledgers by classroom health leaders and encoded only during non-class hours using a single, supervised shared computer terminal.</b></p></div></div>
   <div class="grid two">
     <article class="card">
       <div class="form-two"><div class="field"><label for="spaceName">Space name</label><input id="spaceName" placeholder="e.g., E Building"></div><div class="field"><label for="spaceTime">Time observed</label><input id="spaceTime" type="time"></div></div><div class="pilot-actions"><span>Installed localized cooling airflow fans</span><span>Prioritized a dedicated student hydration station right outside the building.</span></div>
       <div class="check-grid">
-        <label><input class="spaceCheck" type="checkbox" value="limited airflow"><span>Limited airflow</span></label>
-        <label><input class="spaceCheck" type="checkbox" value="non-functioning fan/s"><span>Non-functioning fan/s</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="limited shade"><span>Limited shade</span></label>
         <label><input class="spaceCheck" type="checkbox" value="direct sun exposure"><span>Direct sun exposure</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="limited airflow"><span>Limited airflow</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="ventilation concern"><span>Ventilation concern</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="non-functioning fan/s"><span>Non-functioning fan/s</span></label>
         <label><input class="spaceCheck" type="checkbox" value="high occupancy"><span>High occupancy</span></label>
-        <label><input class="spaceCheck" type="checkbox" value="distant water access"><span>Distant water access</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="heat-absorbing surface condition"><span>Surface / pavement heat condition</span></label>
         <label><input class="spaceCheck" type="checkbox" value="possible reflected sunlight / radiant heat from a nearby surface — TO VERIFY"><span>Possible reflected heat / glare — to verify</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="distant water access"><span>Limited / distant water access</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="limited rest access"><span>Limited rest access</span></label>
+        <label><input class="spaceCheck" type="checkbox" value="nearby protective resources identified"><span>Nearby protective resources identified</span></label>
       </div>
       <button id="evaluateSpace" class="btn primary full">Create observation summary</button><div id="spaceResult" class="result hidden"></div>
     </article>
@@ -589,9 +590,65 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
       <span class="kicker teal-text">CLASSROOM-SAFE WORKFLOW</span><h3>Observe first. Explain causes only after checking them.</h3>
       <div class="info-list">
         <div><b>1</b><span>Repeat checks at comparable times and conditions.</span></div>
-        <div><b>2</b><span>Record shade, airflow, working fans, sun exposure, occupancy, and nearby surfaces.</span></div>
+        <div><b>2</b><span>Record shade, direct sunlight, airflow, ventilation, working fans, occupancy, surface conditions, possible reflected heat or glare, water and rest access, and nearby protective resources.</span></div>
         <div><b>3</b><span>Use “possible contributing factor” for suspected roof or surface reflection until evidence supports it.</span></div>
         <div><b>4</b><span>After an intervention, return and recheck whether protection improved.</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="report" class="view">
+  <div class="section-head">
+    <div>
+      <span class="kicker orange">COMMUNITY-INITIATED REPORTING</span>
+      <h2>REPORT A ZONE</h2>
+      <p>Learners and community members may submit a time- and location-specific observation about a possible heat-exposure concern, protective resource, changing route condition, or service gap for checking and validation.</p>
+      <p class="notice"><b>REPORT A ZONE is the community reporting channel of COOL-LECTIVE.</b> It allows a user to identify a condition that may require further checking. A submitted report is not automatically treated as verified evidence and will not enter the Live Dashboard until it passes the approved checking and validation process.</p>
+    </div>
+  </div>
+  <div class="grid two">
+    <article class="card">
+      <span class="kicker orange">REPORT A POSSIBLE CONCERN OR PROTECTIVE RESOURCE</span>
+      <h3>Submit a Community Observation</h3>
+      <p class="validation-note"><b>Validation pathway:</b> A designated school validator, School DRRM personnel, or authorized community validator may review a report, depending on the location and approved project roles. For school-site reports, School DRRM personnel may validate according to the approved school process. For community-site reports, an authorized barangay or community validator may be used once roles have been consulted and approved.</p>
+      <div class="field"><label for="siteName">Site or general location</label><input id="siteName" placeholder="e.g., Gate waiting area"></div>
+      <div class="form-two">
+        <div class="field"><label for="siteType">Observed need or resource</label><select id="siteType"><option>Limited shade / shelter</option><option>Airflow / ventilation concern</option><option>Water / refill access</option><option>Rest / cooling space</option><option>Exposed route</option><option>Tree / canopy resource</option><option>Other protection gap</option></select></div>
+        <div class="field"><label for="siteStatus">Validation status</label><select id="siteStatus"><option>REPORTED</option><option>CHECKED</option><option>VALIDATED</option><option>ACTIONED</option><option>MONITORED</option></select></div>
+      </div>
+      <div class="form-two">
+        <div class="field"><label for="siteDate">Observation date</label><input id="siteDate" type="date"></div>
+        <div class="field"><label for="siteTime">Observation time</label><input id="siteTime" type="time"></div>
+      </div>
+      <div class="field"><label for="siteUsers">Number or type of users observed, when applicable</label><input id="siteUsers" type="text" placeholder="e.g., 25 learners / commuters / vendors"></div>
+      <div class="field"><label for="siteFactor">Possible contributing factor</label><select id="siteFactor"><option value="">Not identified yet</option><option>Direct afternoon sun</option><option>Limited tree / shade cover</option><option>Dark or heat-absorbing roof / pavement</option><option>Possible reflected sunlight / radiant heat from nearby metal roof or surface — TO VERIFY</option><option>Limited airflow / blocked ventilation</option><option>High occupancy / long waiting time</option><option>Other factor — TO VERIFY</option></select></div>
+      <div class="field"><label for="siteAction">Possible response to examine</label><select id="siteAction"><option value="">Not selected yet</option><option>Shade / waiting shed</option><option>Fan repair / ventilation improvement</option><option>Window shading / screening</option><option>Water / refill access</option><option>Move waiting point to existing shade</option><option>Protect mature tree / add long-term greening</option><option>Further measurement before deciding</option></select></div>
+      <div class="field"><label for="siteObs">Observation or evidence note</label><textarea id="siteObs" placeholder="What was observed, when, and how often?"></textarea></div>
+      <div class="field"><label for="siteVerifier">Authorized validation reference / signature reference</label><input id="siteVerifier" placeholder="Required before VALIDATED, ACTIONED, or MONITORED records can enter the Live Dashboard"></div>
+      <label class="verify-check"><input id="siteVerifiedCheck" type="checkbox"><span>I confirm that an authorized validator has reviewed this record before it is promoted to the Live Dashboard.</span></label>
+      <button id="addSite" class="btn teal full" type="button">Submit Report for Checking</button>
+      <div id="siteList" class="records" aria-live="polite"></div>
+    </article>
+
+    <article class="card">
+      <span class="kicker teal-text">FROM COMMUNITY VOICE TO VALIDATED EVIDENCE</span>
+      <h3>WHAT HAPPENS AFTER A REPORT?</h3>
+      <div class="action-cycle" aria-label="Report validation process">
+        <div><span>01</span><b>REPORT</b></div><i aria-hidden="true">→</i>
+        <div><span>02</span><b>SCREEN</b></div><i aria-hidden="true">→</i>
+        <div><span>03</span><b>SPACE CHECK, IF NEEDED</b></div><i aria-hidden="true">→</i>
+        <div><span>04</span><b>VALIDATE</b></div><i aria-hidden="true">→</i>
+        <div><span>05</span><b>MAP</b></div><i aria-hidden="true">→</i>
+        <div><span>06</span><b>ACT OR REFER</b></div><i aria-hidden="true">→</i>
+        <div class="recheck"><span>07</span><b>RECHECK</b></div>
+      </div>
+      <p class="validation-note">A community report may trigger a structured <b>COOL SPACE CHECK</b> when more detailed site evidence is needed. However, the two tools remain separate: <b>REPORT A ZONE</b> collects community-initiated observations, while <b>COOL SPACE CHECK</b> supports trained and systematic field assessment.</p>
+      <div class="info-list">
+        <div><b>R</b><span><strong>Unverified submissions remain community logs only.</strong> They do not automatically appear on the COOL MAP or Live Dashboard.</span></div>
+        <div><b>V</b><span><strong>VALIDATED, ACTIONED, or MONITORED</strong> records require an authorized validation reference and confirmation.</span></div>
+        <div><b>D</b><span>Only eligible validated records contribute to dashboard metrics and the priority table.</span></div>
+        <div><b>P</b><span>Use general locations and privacy-safe evidence. Do not submit names, diagnoses, exact homes, or public movement histories.</span></div>
       </div>
     </article>
   </div>
@@ -680,11 +737,11 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 </section>
 
 <section id="dashboard" class="view">
-  <div class="section-head"><div><span class="kicker teal-text">PHASE 5 · VALIDATION ROADMAP &amp; GOVERNANCE VALUE</span><h2>COMMUNITY EVIDENCE DASHBOARD</h2><p>Turn repeated observations into transparent priorities for school and community action.</p><p class="validation-note"><b>Accountability Flow:</b> Raw crowd-sourced or student-submitted logs do not go live instantly. Every entry passes through a strict validation line verified and signed by the School Disaster Risk Reduction and Management (DRRM) Officer before updating the Live Dashboard.</p><p class="notice"><b>Empowering the Barangay Council to move from guesswork donations to empirical data spending. The dashboard answers the question: Where will our limited public funds help the most citizens and fix the most urgent micro-climate threat?</b></p></div><button id="exportData" class="btn light small">Export project data</button></div>
+  <div class="section-head"><div><span class="kicker teal-text">PHASE 5 · VALIDATION ROADMAP &amp; GOVERNANCE VALUE</span><h2>COMMUNITY EVIDENCE DASHBOARD</h2><p>Turn repeated observations into transparent priorities for school and community action.</p><p class="validation-note"><b>Accountability Flow:</b> Raw community or learner-submitted reports do not go live instantly. Each eligible entry must pass the approved checking and validation process. A designated school validator, School DRRM personnel, or authorized community validator may validate according to the location and approved project roles before information enters the Live Dashboard.</p><p class="notice"><b>Empowering the Barangay Council to move from guesswork donations to empirical data spending. The dashboard answers the question: Where will our limited public funds help the most citizens and fix the most urgent micro-climate threat?</b></p></div><button id="exportData" class="btn light small">Export project data</button></div>
   <div class="governance-title-strip"><strong>Barangay Council + School Community Review View</strong><span>Only DRRM-validated records enter the live priority table.</span></div>
   <div class="metrics"><article class="metric"><span>COMMUNITY LOGS</span><strong id="mObs">0</strong><small>All locally saved records</small></article><article class="metric"><span>DRRM-VALIDATED</span><strong id="mVal">0</strong><small>Eligible for stakeholder review</small></article><article class="metric"><span>ACTIONED</span><strong id="mAct">0</strong><small>Implemented responses</small></article><article class="metric"><span>MONITORED</span><strong id="mMon">0</strong><small>Rechecked after action</small></article></div>
   <article class="card"><h3>Local priority view</h3><p class="privacy-note">A suspected cause stays a <b>possible contributing factor</b> until repeated observation or appropriate measurement supports it.</p>
-    <div class="table-scroll"><table><thead><tr><th>Site</th><th>Need</th><th>Possible factor</th><th>Response to examine</th><th>Use</th><th>Status</th></tr></thead><tbody id="dashboardRows"></tbody></table></div><div id="emptyDashboard" class="empty">Add COOL MAP observations to build the dashboard.</div>
+    <div class="table-scroll"><table><thead><tr><th>Site</th><th>Need</th><th>Possible factor</th><th>Response to examine</th><th>Use</th><th>Status</th></tr></thead><tbody id="dashboardRows"></tbody></table></div><div id="emptyDashboard" class="empty">Submit a REPORT A ZONE observation to begin building the evidence dashboard.</div>
     <div class="evidence-examples">
       <div class="evidence-example"><strong>Active pilot: E Building heat-discomfort pattern</strong><span>Track repeated before-noon and after-lunch observations alongside the installed localized cooling airflow fans and the dedicated student hydration station prioritized outside the building.</span></div>
       <div class="evidence-example"><strong>Validation target: Grade 9 Building metal roof</strong><span>Record “possible reflected sunlight / radiant heat — TO VERIFY.” Compare repeated observations before calling the roof the cause or choosing an intervention.</span></div>
@@ -774,15 +831,15 @@ function getSites(){try{return JSON.parse(localStorage.getItem(K.sites)||"[]")}c
 function setSites(v){localStorage.setItem(K.sites,JSON.stringify(v))}
 function renderSites(){
   const s=getSites(),box=$("#siteList");
-  box.innerHTML=s.length?s.slice(0,6).map((x,i)=>`<div class="record"><div class="record-head"><div><strong>${esc(x.name)}</strong><small>${esc(x.type)} · ${esc(x.status)}${x.users?` · observed use: ${esc(x.users)}`:""}</small></div><button data-del="${i}">Remove</button></div>${x.verifier?`<small><b>DRRM verification:</b> ${esc(x.verifier)}</small>`:`<small><b>DRRM verification:</b> Pending — this record remains off the Live Dashboard until validated.</small>`}${x.factor?`<small><b>Possible factor:</b> ${esc(x.factor)}</small>`:""}${x.action?`<small><b>Response to examine:</b> ${esc(x.action)}</small>`:""}${x.obs?`<small>${esc(x.obs)}</small>`:""}</div>`).join(""):'<div class="privacy-note">No saved observations yet.</div>';
+  box.innerHTML=s.length?s.slice(0,6).map((x,i)=>`<div class="record"><div class="record-head"><div><strong>${esc(x.name)}</strong><small>${esc(x.type)} · ${esc(x.status)}${x.users?` · observed users: ${esc(x.users)}`:""}</small></div><button data-del="${i}" aria-label="Remove saved report for ${esc(x.name)}">Remove</button></div>${x.date||x.time?`<small><b>Observed:</b> ${x.date?esc(x.date):"Date not recorded"}${x.time?` · ${esc(x.time)}`:""}</small>`:""}${x.verifier?`<small><b>Validation reference:</b> ${esc(x.verifier)}</small>`:`<small><b>Validation reference:</b> Pending — this community log remains off the Live Dashboard until eligible validation is completed.</small>`}${x.factor?`<small><b>Possible factor:</b> ${esc(x.factor)}</small>`:""}${x.action?`<small><b>Response to examine:</b> ${esc(x.action)}</small>`:""}${x.obs?`<small>${esc(x.obs)}</small>`:""}</div>`).join(""):'<div class="privacy-note">No saved community reports yet.</div>';
   $$("[data-del]").forEach(b=>b.addEventListener("click",()=>{const a=getSites();a.splice(Number(b.dataset.del),1);setSites(a);renderSites();renderDashboard();}));
 }
 $("#addSite").addEventListener("click",()=>{
   const name=$("#siteName").value.trim(); if(!name){$("#siteName").focus();return}
   const status=$("#siteStatus").value,verifier=$("#siteVerifier").value.trim(),verifiedCheck=$("#siteVerifiedCheck").checked;
-  if(["VALIDATED","ACTIONED","MONITORED"].includes(status)&&(!verifier||!verifiedCheck)){alert("School DRRM Officer verification reference and confirmation checkbox are required before a record can enter the Live Dashboard.");$("#siteVerifier").focus();return}
-  const s=getSites();s.unshift({id:String(Date.now()),name,type:$("#siteType").value,status,verifier,users:$("#siteUsers").value?Number($("#siteUsers").value):null,time:$("#siteTime").value||"",factor:$("#siteFactor").value,action:$("#siteAction").value,obs:$("#siteObs").value.trim(),createdAt:new Date().toISOString()});
-  setSites(s);["siteName","siteVerifier","siteUsers","siteTime","siteObs"].forEach(id=>$("#"+id).value="");$("#siteVerifiedCheck").checked=false;$("#siteStatus").value="REPORTED";$("#siteFactor").value="";$("#siteAction").value="";renderSites();renderDashboard();
+  if(["VALIDATED","ACTIONED","MONITORED"].includes(status)&&(!verifier||!verifiedCheck)){alert("An authorized validation reference and confirmation are required before a VALIDATED, ACTIONED, or MONITORED record can enter the Live Dashboard.");$("#siteVerifier").focus();return}
+  const s=getSites();s.unshift({id:String(Date.now()),name,type:$("#siteType").value,status,verifier,verified:verifiedCheck,users:$("#siteUsers").value.trim()||null,date:$("#siteDate").value||"",time:$("#siteTime").value||"",factor:$("#siteFactor").value,action:$("#siteAction").value,obs:$("#siteObs").value.trim(),createdAt:new Date().toISOString()});
+  setSites(s);["siteName","siteVerifier","siteUsers","siteDate","siteTime","siteObs"].forEach(id=>$("#"+id).value="");$("#siteVerifiedCheck").checked=false;$("#siteStatus").value="REPORTED";$("#siteFactor").value="";$("#siteAction").value="";renderSites();renderDashboard();
 });renderSites();
 
 $("#evaluateSpace").addEventListener("click",()=>{
@@ -834,8 +891,8 @@ $("#lessonForm").addEventListener("submit",e=>{
 });
 
 function renderDashboard(){
-  const s=getSites(),live=s.filter(x=>["VALIDATED","ACTIONED","MONITORED"].includes(x.status)&&x.verifier);$("#mObs").textContent=s.length;$("#mVal").textContent=live.length;$("#mAct").textContent=live.filter(x=>["ACTIONED","MONITORED"].includes(x.status)).length;$("#mMon").textContent=live.filter(x=>x.status==="MONITORED").length;
-  $("#dashboardRows").innerHTML=live.map(x=>`<tr><td><strong>${esc(x.name)}</strong>${x.time?`<div class="privacy-note">${esc(x.time)}</div>`:""}<div class="privacy-note">DRRM: ${esc(x.verifier)}</div></td><td>${esc(x.type)}</td><td>${esc(x.factor||"—")}</td><td>${esc(x.action||"—")}</td><td>${x.users??"—"}</td><td>${esc(x.status)}</td></tr>`).join("");$("#emptyDashboard").textContent=s.length&&!live.length?"Saved observations are still awaiting School DRRM validation before entering the Live Dashboard.":"Add COOL MAP observations to build the dashboard.";$("#emptyDashboard").classList.toggle("hidden",live.length>0);
+  const s=getSites(),live=s.filter(x=>["VALIDATED","ACTIONED","MONITORED"].includes(x.status)&&x.verifier&&x.verified!==false);$("#mObs").textContent=s.length;$("#mVal").textContent=live.length;$("#mAct").textContent=live.filter(x=>["ACTIONED","MONITORED"].includes(x.status)).length;$("#mMon").textContent=live.filter(x=>x.status==="MONITORED").length;
+  $("#dashboardRows").innerHTML=live.map(x=>`<tr><td><strong>${esc(x.name)}</strong>${x.date||x.time?`<div class="privacy-note">${x.date?esc(x.date):"Date not recorded"}${x.time?` · ${esc(x.time)}`:""}</div>`:""}<div class="privacy-note">Validation: ${esc(x.verifier)}</div></td><td>${esc(x.type)}</td><td>${esc(x.factor||"—")}</td><td>${esc(x.action||"—")}</td><td>${x.users??"—"}</td><td>${esc(x.status)}</td></tr>`).join("");$("#emptyDashboard").textContent=s.length&&!live.length?"Saved community reports are still awaiting eligible validation before entering the Live Dashboard.":"Submit a REPORT A ZONE observation to begin building the evidence dashboard.";$("#emptyDashboard").classList.toggle("hidden",live.length>0);
 }renderDashboard();
 
 $("#exportData").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({project:"PROJECT COOL-LECTIVE",exportedAt:new Date().toISOString(),observations:getSites(),coolPoints:totalPoints()},null,2)],{type:"application/json"}),u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=`cool-lective-data-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);});
