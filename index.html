@@ -61,10 +61,25 @@ img,iframe{max-width:100%}
 .brand-cool{
   color:transparent;background:linear-gradient(105deg,#087D80 0%,#23AAAA 40%,#DDFBF7 51%,#087D80 63%,#087D80 100%);
   background-size:240% 100%;-webkit-background-clip:text;background-clip:text;
-  text-shadow:0 7px 22px rgba(8,125,128,.13);animation:coolShimmer 1.35s ease-in-out 1 both
+  -webkit-text-fill-color:transparent;text-shadow:0 7px 22px rgba(8,125,128,.13)
+}
+/* Independent continuous animation system for the word COOL only. */
+.cool-word-animated{
+  opacity:1;
+  animation-name:coolContinuousSweep;
+  animation-duration:2.6s;
+  animation-delay:0s;
+  animation-iteration-count:infinite;
+  animation-timing-function:ease-in-out;
+  animation-fill-mode:both;
+  will-change:background-position
+}
+@keyframes coolContinuousSweep{
+  0%{background-position:100% 50%}
+  50%{background-position:0% 50%}
+  100%{background-position:100% 50%}
 }
 .brand-lective{color:var(--navy)}
-@keyframes coolShimmer{0%,72%,100%{background-position:100% 0}82%{background-position:0 0}}
 .subtitle{
   max-width:680px;margin:0;
   font-size:clamp(1rem,1.65vw,1.18rem);font-weight:760;line-height:1.4;color:var(--navy2)
@@ -307,7 +322,18 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;scroll-behavior:auto!important}
-  .brand-cool{background-position:100% 0!important}
+  .cool-word-animated{
+    animation:none!important;
+    opacity:1!important;
+    transform:none!important;
+    background-position:50% 50%!important
+  }
+  .brand-cool{
+    color:transparent!important;
+    -webkit-text-fill-color:transparent!important;
+    -webkit-background-clip:text!important;
+    background-clip:text!important
+  }
   .hero-action-item,.hero-action-item::after{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
   .hero-action-icon,.install-utility{transition:none!important}
 }
@@ -343,7 +369,7 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
     <div class="eyebrow">COMMUNITY HEAT RESILIENCE</div>
     <h1 class="brand-title">
       <span class="brand-project">PROJECT</span>
-      <span class="brand-name"><span class="brand-cool">COOL</span><span class="brand-lective">-LECTIVE</span></span>
+      <span class="brand-name"><span class="brand-cool cool-word-animated">COOL</span><span class="brand-lective">-LECTIVE</span></span>
     </h1>
     <p class="subtitle">Community Observation, Outreach, and<span class="subtitle-break"></span> Local Action for <span class="subtitle-nowrap">Heat-Resilient Neighborhoods</span></p>
 
