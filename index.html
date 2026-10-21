@@ -410,6 +410,14 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 .action-pilot-tools .btn{border-radius:12px}
 @media(max-width:690px){.action-pilot-grid{grid-template-columns:1fr}}
 
+
+/* Automatic aggregate dashboard refresh: public counts only. */
+.online-summary-controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+.online-pulse{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:.65rem;letter-spacing:.055em;padding:7px 11px;border-radius:999px;background:#F0F4F2;color:#53676C;border:1px solid #D8E4E1}
+.online-pulse.live{background:#E3F7EE;color:#206447;border-color:#AEDBC8}
+.online-pulse.live:before{content:"";display:inline-block;height:7px;width:7px;border-radius:50%;background:#26A66B}
+.online-pulse.waiting{background:#FFF1DB;color:#8C5A12;border-color:#EED5A8}
+
 </style>
 </head>
 <body>
@@ -816,9 +824,9 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
   <article class="card online-summary-card" aria-labelledby="onlineSummaryTitle">
     <div class="online-summary-header">
       <div><span class="kicker teal-text">MICROSOFT 365 PILOT REPORTING</span><h3 id="onlineSummaryTitle">ONLINE REPORT STATUS</h3></div>
-      <button class="btn light small" id="refreshOnlineSummary" type="button">Refresh status</button>
+      <div class="online-summary-controls"><span class="online-pulse" id="onlineSyncBadge" aria-live="polite">CHECKING SYNC</span><button class="btn light small" id="refreshOnlineSummary" type="button">Refresh now</button></div>
     </div>
-    <p class="privacy-note">This section displays only privacy-safe aggregate counts when an approved public summary has been published. The private SharePoint list is not accessible from this public website.</p>
+    <p class="privacy-note"><b>Live reporting summary:</b> Automatically published totals from authorized Microsoft 365 records after GitHub synchronization. Newly submitted reports appear under Reports Received and Under Review, but are <b>not verified evidence</b> until independently reviewed. The private SharePoint list is not publicly accessible.</p>
     <div class="online-summary-metrics" aria-live="polite">
       <div class="online-summary-metric"><span>REPORTS RECEIVED</span><strong id="onlineReportsReceived">—</strong><small>Not automatically validated</small></div>
       <div class="online-summary-metric"><span>UNDER REVIEW</span><strong id="onlineReportsPending">—</strong><small>Pending authorized checking</small></div>
@@ -826,6 +834,7 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
       <div class="online-summary-metric"><span>ACTIONS RECORDED</span><strong id="onlineActionsRecorded">—</strong><small>Documented, not merely proposed</small></div>
     </div>
     <p id="onlineSummaryMessage" class="validation-note" role="status">Checking whether an approved public reporting summary is available…</p>
+    <p class="privacy-note"><b>Note:</b> Summary counts include submissions in the connected pilot List; a submission is <i>not</i> automatically approved. Publication can take several minutes while Power Automate and GitHub Actions run.</p>
     <p class="privacy-note" id="onlineSummaryUpdated">No public summary has been published yet.</p>
     <p class="privacy-note"><b>Authorized coordinators:</b> review actual submissions and report identities only in the private DepEd SharePoint / Microsoft Lists workspace. <a href="https://lists.microsoft.com/" target="_blank" rel="noopener noreferrer">Open Microsoft Lists ↗</a></p>
   </article>
@@ -1054,37 +1063,69 @@ function renderPilotDispenser(rec){
   }
 }
 
-// Approved, privacy-safe PUBLIC summary only. Never request private SharePoint Lists from GitHub Pages.
+// Only public, aggregate JSON is fetched. Microsoft credentials and private reports stay on SharePoint.
+let onlineSummaryLoaded=false;
+let onlineSummaryBusy=false;
 async function loadOnlineReportSummary(){
+  if(onlineSummaryBusy)return;
+  onlineSummaryBusy=true;
   const message=document.getElementById('onlineSummaryMessage');
   const updated=document.getElementById('onlineSummaryUpdated');
+  const badge=document.getElementById('onlineSyncBadge');
   const metrics={reportsReceived:'onlineReportsReceived',underReview:'onlineReportsPending',validated:'onlineReportsValidated',actionsRecorded:'onlineActionsRecorded'};
-  Object.values(metrics).forEach(id=>{document.getElementById(id).textContent='—';});
-  message.textContent='Checking for an approved public reporting summary…';
-  updated.textContent='';
+  if(!onlineSummaryLoaded){
+    Object.values(metrics).forEach(id=>{document.getElementById(id).textContent='—';});
+    message.textContent='Checking the approved public reporting summary…';
+  }
+  badge.classList.remove('live','waiting');
+  if(!onlineSummaryLoaded)badge.textContent='CHECKING SYNC';
   try{
-    const resp=await fetch('./coollective-public-summary.json?t='+Date.now(),{cache:'no-store'});
-    if(!resp.ok)throw Error('No public summary file');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),12000);
+    let resp;
+    try{resp=await fetch('./coollective-public-summary.json?t='+Date.now(),{cache:'no-store',signal:controller.signal});}
+    finally{clearTimeout(timeout);}
+    if(!resp.ok)throw Error('No published public summary file');
     const obj=await resp.json();
     renderPilotDispenser(Array.isArray(obj.pilotAssets)?obj.pilotAssets.find(a=>a&&a.type==='water_dispenser'):null);
     if(obj.published!==true){
-      message.textContent='Online reporting is connected to private DepEd Microsoft Lists. Public counts are not yet published; this page does not directly access reporter data.';
-      updated.textContent='Verify submitted reports in your authorized Microsoft Lists account.';
+      message.textContent='Report submissions are stored in private Microsoft Lists. Automatic public totals are not yet activated. Configure Power Automate → GitHub dispatch.';
+      updated.textContent='No public report counts are claimed until the first successful synchronization.';
+      badge.textContent='SETUP NEEDED';badge.classList.add('waiting');
       return;
     }
-    const keys=Object.keys(metrics);
-    if(!keys.every(k=>Number.isSafeInteger(obj[k])&&obj[k]>=0))throw Error('Invalid summary counts');
-    if(obj.validated>obj.reportsReceived||obj.underReview>obj.reportsReceived||obj.actionsRecorded>obj.reportsReceived)throw Error('Inconsistent summary counts');
-    for(const [key,id] of Object.entries(metrics))document.getElementById(id).textContent=String(obj[key]);
-    message.textContent='Published aggregate from approved project records. The counts may lag behind new submissions; reports are not automatically verified.';
-    updated.textContent=obj.updatedAt?'Summary last updated: '+String(obj.updatedAt).slice(0,24):'Summary updated date not provided.';
+    const countKeys=['reportsReceived','underReview','validated'];
+    if(!countKeys.every(k=>Number.isSafeInteger(obj[k])&&obj[k]>=0))throw Error('Invalid published count');
+    if(obj.underReview+obj.validated>obj.reportsReceived)throw Error('Inconsistent report counts');
+    if(obj.actionsRecorded!=null&&(!Number.isSafeInteger(obj.actionsRecorded)||obj.actionsRecorded<0))throw Error('Invalid action count');
+    for(const [key,id] of Object.entries(metrics))document.getElementById(id).textContent=obj[key]==null?'—':String(obj[key]);
+    onlineSummaryLoaded=true;
+    badge.textContent='AUTO-SYNC ENABLED';badge.classList.add('live');
+    message.textContent='Aggregate counts are published automatically from the approved reporting flow; under-review reports are not yet verified. Refreshes while this dashboard is open.';
+    updated.textContent=obj.updatedAt?'Last public sync: '+String(obj.updatedAt).slice(0,40):'Public summary sync time not provided.';
   }catch(err){
-    message.textContent='No approved public summary is available yet. Incoming reports remain private in Microsoft Lists; no live report count is claimed here.';
-    updated.textContent='The project coordinator can publish the separate, non-personal summary JSON file after review.';
-  }
+    badge.textContent=onlineSummaryLoaded?'SYNC DELAY':'NOT YET CONNECTED';badge.classList.add('waiting');
+    if(onlineSummaryLoaded){
+      message.textContent='The latest update could not be checked. Previously displayed counts may be outdated; no new submissions have been confirmed.';
+      updated.textContent+=' · New update unavailable';
+    }else{
+      message.textContent='Automatic public counts are not available. The SharePoint List may still contain your submitted report.';
+      updated.textContent='Check the restricted Microsoft Lists records, then complete the GitHub dispatch workflow.';
+    }
+  }finally{onlineSummaryBusy=false;}
 }
 renderPilotDispenser(null);
 document.getElementById('refreshOnlineSummary').addEventListener('click',loadOnlineReportSummary);
+// Refresh on dashboard opening, and then every 30 seconds while visible. GitHub publishing itself may take minutes.
+document.querySelectorAll('[data-section="dashboard"],[data-open="dashboard"]').forEach(button=>{
+  button.addEventListener('click',loadOnlineReportSummary);
+});
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden&&document.getElementById('dashboard').classList.contains('active'))loadOnlineReportSummary();
+});
+setInterval(()=>{
+  if(!document.hidden&&document.getElementById('dashboard').classList.contains('active'))loadOnlineReportSummary();
+},30000);
 loadOnlineReportSummary();
 
 </script>

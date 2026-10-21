@@ -1,0 +1,129 @@
+PROJECT COOL-LECTIVE — AUTOMATIC REPORT RECEIVED / UNDER REVIEW DASHBOARD
+Updated 22 October 2026 (Asia/Manila)
+
+GOAL
+A submitted Microsoft Form is saved by the EXISTING successful flow:
+COOLLECTIVE_01_SAVE_REPORT → private SharePoint list COOLLECTIVE_REPORTS.
+A NEW flow sends ONLY three integer counts to the GitHub connector. GitHub Actions
+updates coollective-public-summary.json and redeploys the website. Browsers refresh
+counts every 30 sec while the Dashboard tab is visible. Expect a publishing delay
+(Power Automate + GitHub Actions), not instantaneous updates within seconds.
+
+CURRENT STATUS: FILES PREPARED, NOT CONNECTED TO USER'S CLOUD ACCOUNT.
+Do not claim the existing report is already visible on the public site.
+No reporter identity, exact location, email or private notes should be sent to GitHub.
+
+A — UPLOAD ALL WEBSITE FILES TO GITHUB
+1. GitHub > repository mamevelyn/cool-lective > Add file > Upload files.
+2. Upload index.html and coollective-public-summary.json to the WEBSITE ROOT,
+   replacing older files. Upload .nojekyll only if necessary.
+3. GitHub requires the folders .github/workflows and scripts in the repo.
+   The easiest way to upload those preserving their exact paths is with
+   GitHub's web editor: press '.' in the repository to open github.dev,
+   create/drag the folder structure then commit, OR click Add file > Create new file
+   and type .github/workflows/publish-coollective-dashboard.yml and
+   scripts/publish_counts.py as full path names; paste files from this ZIP.
+4. In GitHub > Settings > Pages > Build and deployment > Source: GitHub Actions.
+   This workflow explicitly deploys the static site (GITHUB_TOKEN commits do
+   NOT trigger branch-based Pages builds).
+5. GitHub > Settings > Actions > General: actions permitted; workflow can
+   write contents and deploy Pages, subject to repository/org settings.
+6. The original design is preserved. No server secrets are placed in index.html.
+
+B — BUILD FLOW 04 IN POWER AUTOMATE (NO GENERIC PREMIUM HTTP ACTION)
+Name: COOLLECTIVE_04_PUBLIC_DASHBOARD
+Trigger: SharePoint > WHEN AN ITEM IS CREATED OR MODIFIED
+  Site Address: EXACT SAME site as your functioning COOLLECTIVE_01_SAVE_REPORT.
+  List Name: COOLLECTIVE_REPORTS
+
+Step 1: SharePoint > GET ITEMS; RENAME ACTION EXACTLY: Get_items
+  Site Address: same site; List Name: COOLLECTIVE_REPORTS
+  Keep Filter Query BLANK for the first pilot so the existing test report counts.
+  IMPORTANT: default is not unlimited (often 100 items). Set Top Count 5000 and
+  pagination as required before larger scale use.
+
+Step 2: Data Operations > FILTER ARRAY; rename: Filter_array_Under_Review
+  FROM field Expression: body('Get_items')?['value']
+  Switch to advanced mode; paste this expression (one line):
+@or(empty(item()?['ReportStatus']),contains(toLower(string(item()?['ReportStatus'])),'submitted'),contains(toLower(string(item()?['ReportStatus'])),'for validation'),contains(toLower(string(item()?['ReportStatus'])),'under review'),contains(toLower(string(item()?['ReportStatus'])),'for review'),contains(toLower(string(item()?['ReportStatus'])),'reported'),contains(toLower(string(item()?['ReportStatus'])),'pending'))
+  If no ReportStatus column exists yet, the blank status is treated as pending.
+  ReportStatus spelling must match the actual SharePoint internal column name.
+
+Step 3: Data Operations > FILTER ARRAY; rename: Filter_array_Validated
+  FROM: body('Get_items')?['value']
+  Advanced mode expression:
+@or(contains(toLower(string(item()?['ReportStatus'])),'validated'),contains(toLower(string(item()?['ReportStatus'])),'action in progress'),contains(toLower(string(item()?['ReportStatus'])),'for recheck'),contains(toLower(string(item()?['ReportStatus'])),'closed'))
+  Validated status needs true human verification first; flow only counts.
+
+Step 4: Data Operations > COMPOSE; RENAME: Compose_Public_Counts
+  Click Expression (fx), then paste EXACTLY the following ONE expression:
+json(concat('{"reportsReceived":',string(length(body('Get_items')?['value'])),',"underReview":',string(length(body('Filter_array_Under_Review'))),',"validated":',string(length(body('Filter_array_Validated'))),'}'))
+  Expected output after the one submitted report IF it is still in SharePoint:
+  {"reportsReceived":1,"underReview":1,"validated":0}
+  *That is an EXPECTED EXAMPLE and is not an assertion about your live list.*
+
+Step 5: GITHUB CONNECTOR (Standard class, preview action; availability depends on tenant)
+  Action: GitHub > Create a repository dispatch event (Preview)
+  Sign in to OWN GitHub account that controls the site.
+  Repository Owner: mamevelyn
+  Repository Name: cool-lective
+  Event Name: coollective_summary
+  Event Payload: output of Compose_Public_Counts (object, NOT escaped JSON text)
+  In Event Payload use dynamic content 'Outputs' of Compose_Public_Counts;
+  if needed Expression outputs('Compose_Public_Counts').
+  If GitHub connector is blocked by DepEd policy or Preview unavailable,
+  STOP: this approach cannot automatically publish until admin permits it.
+  Do NOT substitute HTTP trigger/connector without checking Premium license.
+
+Save and turn ON the new flow.
+
+C — RE-SYNC YOUR EXISTING ONE REPORT (IMPORTANT!)
+This trigger only fires on NEW or MODIFIED SharePoint items. It will NOT go
+back and republish yesterday's report automatically.
+1. Open Microsoft Lists > COOLLECTIVE_REPORTS.
+2. Confirm the one submitted record is visible. (Flow success alone is not a report count.)
+3. EDIT that existing row, add a non-sensitive internal note or correct its
+   ReportStatus to Submitted, then SAVE so the modification triggers Flow 04.
+   Do not create a fake second report to force the count.
+4. Power Automate > COOLLECTIVE_04_PUBLIC_DASHBOARD > Run history: all green?
+   GitHub > Actions > Publish COOL-LECTIVE Public Dashboard: green?
+5. Open the website > DASHBOARD; use Refresh now.
+   If exactly one item is stored and its ReportStatus is blank/Submitted,
+   then expect Reports Received 1, Under Review 1, Validated 0.
+   The website refreshes automatically while the tab is open (every 30 sec).
+
+D — TROUBLESHOOTING
+- Not appearing in GitHub Actions? Event Name must be coollective_summary,
+  workflow must exist on repository DEFAULT branch; GitHub connection must have
+  sufficient permission; check Flow 04 last action output.
+- Workflow failed? Review exact red step and repository Settings > Actions > General.
+- GitHub Actions succeeded but public site stale? Confirm Settings > Pages Source
+  is 'GitHub Actions' and deployment step completed. Try Ctrl+F5.
+- Reports Received 0? Check 'Get items' action output length and exact site/list.
+- Under Review 0 while Received 1? Check ReportStatus internal name and the
+  Filter_array_Under_Review output; blank and Submitted should count as pending.
+- If ReportStatus internal name is different, replace ALL `ReportStatus` paths
+  in both filters with the actual SharePoint internal name.
+- GitHub flow can't be used? Private Microsoft Lists page is still live for
+  authorized viewers; public website cannot magically query private records.
+- Do not put SharePoint API keys, access tokens, student names or raw form
+  responses in GitHub event payload or the public JSON.
+
+E — SAFETY & ACCURACY
+- 'Reports Received' includes pilot/test submissions unless later excluded with
+  a consistent approved rule. Label tests in the restricted list; do not call
+  them real community engagement evidence.
+- 'Under Review' means received/pending, NOT validated.
+- 'Validated' counts only appropriately updated authorized statuses.
+- 'Actions Recorded' remains a dash until a separate verified ACTIONS summary
+  flow is implemented. Existing dispenser stays FOR VERIFICATION.
+- Github connector is STANDARD according to Microsoft Learn as of Oct 2026.
+  The repository dispatch action is PREVIEW and may be disabled by school policy.
+- The system can run without buying a Premium HTTP connector IF all standard
+  connectors are permitted by your M365/DepEd tenant and GitHub Actions enabled.
+
+REFERENCE
+https://learn.microsoft.com/en-us/connectors/github/
+https://learn.microsoft.com/en-us/connectors/sharepointonline/
+https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
