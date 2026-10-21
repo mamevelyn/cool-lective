@@ -394,6 +394,22 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 @media(max-width:780px){.online-summary-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){.online-summary-metrics{grid-template-columns:1fr}}
 
+
+/* Verified community action and resource pipeline. Public-facing status is informational only. */
+.action-pilot-card{margin:0 0 17px;border:1px solid #D9E8E1;background:linear-gradient(135deg,#FFFDF9,#F1FAF7)}
+.action-pilot-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.action-pilot-card h3{margin:6px 0 8px;color:var(--navy)}
+.action-pilot-state{display:inline-block;padding:7px 10px;border-radius:10px;font-size:.7rem;font-weight:950;letter-spacing:.04em;background:#FFF2E8;color:#96501D;border:1px solid #F1D9C6}
+.action-pilot-state.confirmed{background:#E7F4EA;color:#376643;border-color:#BEDAC7}
+.action-pilot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:13px 0 12px}
+.action-pilot-grid>div{background:#fff;border:1px solid #E0EAE6;border-radius:12px;padding:12px}
+.action-pilot-grid b{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.action-pilot-grid span{font-weight:800;color:var(--navy2);font-size:.82rem;line-height:1.38}
+.action-pilot-disclaimer{margin:10px 0 0;font-size:.78rem;color:#667E86;line-height:1.5}
+.action-pilot-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.action-pilot-tools .btn{border-radius:12px}
+@media(max-width:690px){.action-pilot-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -813,6 +829,24 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
     <p class="privacy-note" id="onlineSummaryUpdated">No public summary has been published yet.</p>
     <p class="privacy-note"><b>Authorized coordinators:</b> review actual submissions and report identities only in the private DepEd SharePoint / Microsoft Lists workspace. <a href="https://lists.microsoft.com/" target="_blank" rel="noopener noreferrer">Open Microsoft Lists ↗</a></p>
   </article>
+  <!-- COMMUNITY RESOURCE: status sourced from public-only JSON, not private SharePoint records. -->
+  <article class="card action-pilot-card" aria-labelledby="pilotActionTitle">
+    <div class="action-pilot-top">
+      <div><span class="kicker green-text">COOL ACTION BOARD · INITIAL RESOURCE CHECK</span><h3 id="pilotActionTitle">Water Dispenser — First Resource Record</h3></div>
+      <span class="action-pilot-state" id="dispenserStatus" aria-live="polite">FOR VERIFICATION</span>
+    </div>
+    <p id="dispenserDescription">A dispenser installation has been reported to the project team. The location, accessibility, working condition, and responsible maintenance have not yet been independently checked for COOL MAP publication.</p>
+    <div class="action-pilot-grid">
+      <div><b>Public map listing</b><span id="dispenserMapState">Not yet eligible; recheck required</span></div>
+      <div><b>Project cash cost</b><span id="dispenserCashCost">To document; do not assume zero</span></div>
+      <div><b>Next step</b><span id="dispenserNext">School-authorized asset inspection and record of maintenance</span></div>
+    </div>
+    <p class="action-pilot-disclaimer"><b>Two checks:</b> A community report must be checked for accuracy. A completed stakeholder action requires a separate completion check before the resource is marked in service. A dispenser is never labeled a verified drinking-water point until safety, current availability, accessibility, and upkeep are confirmed.</p>
+    <div class="action-pilot-tools">
+      <a class="btn light small" href="https://lists.microsoft.com/" target="_blank" rel="noopener noreferrer">OPEN LIVE INTERNAL RECORDS (DEPED SIGN-IN) ↗</a>
+      <span class="privacy-note">The public site cannot edit verification or award COOL POINTS.</span>
+    </div>
+  </article>
   <details class="local-demo-details">
     <summary>Show local prototype records (device-only demonstration; NOT SharePoint submissions)</summary>
   <div class="governance-title-strip"><strong>School and Community Evidence Review</strong><span>The view shows the full record pipeline. Only authorized validated records count in validated and action metrics.</span></div>
@@ -988,6 +1022,38 @@ $("#exportData").addEventListener("click",()=>{const blob=new Blob([JSON.stringi
 let deferredPrompt=null;const installBtn=$("#installBtn");window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove("hidden")});installBtn.addEventListener("click",async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add("hidden")});
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
 
+
+// Public resource showcase only; authority, source evidence, identities, and actual approvals stay in SharePoint.
+function renderPilotDispenser(rec){
+  const status=document.getElementById('dispenserStatus');
+  const description=document.getElementById('dispenserDescription');
+  const mapState=document.getElementById('dispenserMapState');
+  const cash=document.getElementById('dispenserCashCost');
+  const next=document.getElementById('dispenserNext');
+  if(!status||!description||!mapState||!cash||!next)return;
+  status.classList.remove('confirmed');
+  status.textContent='FOR VERIFICATION';
+  description.textContent='A water dispenser installation has been reported. Confirm physical condition, approved general location, accessibility, potable water arrangements, and maintenance with authorized school personnel.';
+  mapState.textContent='Not listed as a verified water point';
+  cash.textContent='To document; no cost claim yet';
+  next.textContent='Authorized site inspection and action record';
+  if(!rec||rec.type!=='water_dispenser'||typeof rec.status!=='string')return;
+  if(rec.status==='verified_in_service'&&rec.publicReleaseApproved===true&&rec.checkedByAuthorizedPerson===true&&rec.waterServiceConfirmed===true){
+    status.classList.add('confirmed');
+    status.textContent='VERIFIED — IN SERVICE';
+    const loc=rec.publicLocationApproved===true&&rec.publicLocation?String(rec.publicLocation).slice(0,120):'School/community location approved for display';
+    description.textContent='A designated reviewer has confirmed the installed water resource: '+loc+'. Availability is subject to regular rechecking.';
+    mapState.textContent='Eligible for COOL MAP publication after approved geolocation review';
+    cash.textContent=rec.noNewProjectCashOutlayConfirmed===true?'No new COOL-LECTIVE cash outlay (verified)':'Project cash source / amount: not confirmed';
+    next.textContent=rec.nextRecheckDate?'Follow-up: '+String(rec.nextRecheckDate).slice(0,40):'Assign and document next water/resource check';
+  }else if(rec.status==='verified_unavailable'){
+    status.textContent='VERIFIED — NOT AVAILABLE';
+    description.textContent='The reported installation has been checked but is not currently approved as an available drinking-water resource.';
+    mapState.textContent='Not available on resource map';
+    next.textContent='Repair or reassess before public listing';
+  }
+}
+
 // Approved, privacy-safe PUBLIC summary only. Never request private SharePoint Lists from GitHub Pages.
 async function loadOnlineReportSummary(){
   const message=document.getElementById('onlineSummaryMessage');
@@ -1000,6 +1066,7 @@ async function loadOnlineReportSummary(){
     const resp=await fetch('./coollective-public-summary.json?t='+Date.now(),{cache:'no-store'});
     if(!resp.ok)throw Error('No public summary file');
     const obj=await resp.json();
+    renderPilotDispenser(Array.isArray(obj.pilotAssets)?obj.pilotAssets.find(a=>a&&a.type==='water_dispenser'):null);
     if(obj.published!==true){
       message.textContent='Online reporting is connected to private DepEd Microsoft Lists. Public counts are not yet published; this page does not directly access reporter data.';
       updated.textContent='Verify submitted reports in your authorized Microsoft Lists account.';
@@ -1016,6 +1083,7 @@ async function loadOnlineReportSummary(){
     updated.textContent='The project coordinator can publish the separate, non-personal summary JSON file after review.';
   }
 }
+renderPilotDispenser(null);
 document.getElementById('refreshOnlineSummary').addEventListener('click',loadOnlineReportSummary);
 loadOnlineReportSummary();
 

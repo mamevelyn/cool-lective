@@ -1,0 +1,64 @@
+PROJECT COOL-LECTIVE — REPORTING, VALIDATION, COOL POINTS & RESOURCE VERIFICATION
+WORKING STARTER — 2026-10-21
+
+FILES:
+ index.html — updated GitHub Pages web app, original design and tabs preserved. Microsoft Forms report link retained.
+ coollective-public-summary.json — privacy-safe public preview. Water dispenser is a REPORTED installation awaiting verification, NOT a verified point.
+
+WHAT IS ACTUALLY FUNCTIONAL TODAY:
+ 1. The user-tested Microsoft Forms -> Power Automate -> SharePoint list COOLLECTIVE_REPORTS saves submissions.
+ 2. Power Automate may support approval workflows using standard SharePoint and Approvals connectors, subject to DepEd tenant permissions.
+ 3. Authorized staff can open live PRIVATE Microsoft Lists records via the dashboard link and their DepEd sign-in.
+
+NOT YET CONNECTED/AUTOMATIC:
+ - Public GitHub counts: current public summary JSON remains unpublished; NEVER treat this as live or set dummy counts.
+ - Verifier accounts, automatic award of COOL POINTS, and live public map pins: need the additional cloud flows and role approvals described below.
+ - The water dispenser is displayed as FOR VERIFICATION because there are no supporting details proving that it is accessible and operational.
+
+IMPLEMENTATION STEPS — NO PREMIUM CONNECTOR REQUIRED FOR PRIVATE WORKFLOW WHEN TENANT PERMITS:
+
+A. LIST 1: COOLLECTIVE_REPORTS (existing)
+Confirm at least Title, ReportStatus (Submitted, For Validation, Validated, Rejected, Referred...), ReporterEmail (private), VerifiedDate, VerificationNotes, PointsAwarded (default 0).
+If school-only Forms, collect Responder's Email in Get response details and map to ReporterEmail. Do not collect National ID or public LRN.
+
+B. FLOW 02: COOLLECTIVE_02_VERIFY_REPORT
+Power Automate > Create > Automated cloud flow > SharePoint 'When an item is created' on COOLLECTIVE_REPORTS.
+Condition: process normal records only; DEMO records can be reviewed separately but must not earn points.
+Action: Approvals > Start and wait for an approval; Assign to authorized independent verifier school account, not the reporter. Include report ID, place, timestamp, notes, secure item link.
+On 'Approve': SharePoint > Update item ID from SharePoint trigger (NOT Microsoft Forms response ID), status 'Validated'; add actual reviewer, date, evidence/check notes. For real observations, approval requires independent field check according to school procedure.
+On 'Reject': Update item status 'Rejected', comments; NO points.
+Use 'When an item is created' to avoid the status-update trigger loop.
+
+C. LIST 2: COOLLECTIVE_ACTIONS (NEW)
+Suggested columns: Title, RelatedReportID (optional number), ActionType (choice Water Dispenser, Tree Planting, Plant Care, Clean-up, Shade, Repair, Other), GeneralLocation (text), DateReported (date), ImplementationDate (date), ActionStatus (choice Reported Installed / For Check / Verified In Service / Unavailable / Recheck Due), EvidenceReference (restricted text/link), SourceType (Existing / In-Kind Donation / Approved School Resource / Other), ProjectCashOutlayPHP (number, blank until verified), MaintenanceOwner (private text), VerifiedBy (person, restricted), VerifiedDate (date), NextRecheckDate (date), PublicReleaseApproved (yes/no, default No).
+Enter the first 'Water dispenser' record as ActionStatus='Reported Installed / For Check'. Record actual site, installation date, responsible office, permission, photographic/documentary evidence and accessibility/potability if available. Do not claim it is validated or 'zero cost' before confirming.
+
+D. FLOW 03: COOLLECTIVE_03_VERIFY_ACTION
+Trigger SharePoint 'When an item is created' on COOLLECTIVE_ACTIONS.
+'Approvals > Start and wait for an approval' assigned to authorized personnel who can inspect resource and are independent from installer when feasible.
+If approved after documented site check, Update item to 'Verified In Service', record completed inspection and maintenance plan; else 'For Check/Unavailable'. School/property acceptance and implementation approvals are separate from technical verification. Ask School Head / school property custodian for applicable acceptance and donation procedures.
+Only after public release approval should staff publish a sanitized resource status to the public JSON; do not include names or private photo links.
+
+E. LIST 3: COOLLECTIVE_POINTS_LEDGER (NEW)
+Title (unique award key, e.g. REPORT-42), UserEmail (private), ActivityType (choice), SourceID (number), Points (number), ApprovalRef (private), AwardedAt (date), Redeemed (yes/no).
+Award points only for school-approved verified activity, not submissions alone. Require verified account, duplicate prevention (enforce unique Title), no self-verification; exclude DEMO/test data. For report award, run upon approval in Flow 02 only after record validation, e.g. sample 10 points (proposed, NOT an adopted policy); do not award for the same report twice. Reversal controls needed for mistakes.
+Redeeming rewards is separate: needs inventory, lawful source and custodian, documented issuance and authorized financial procedures. Earned points are recognition, not a promise of stocked rewards.
+
+F. PRIVATE LIVE DASHBOARD
+In Microsoft Lists: create 'Pending review' and 'Validated records' views on COOLLECTIVE_REPORTS; create 'Action checks' and 'Verified resources' views on COOLLECTIVE_ACTIONS; add these list web parts to a restricted school SharePoint page if site owner permits. The data is live to authenticated authorized staff (refresh as needed). Link on GitHub dashboard goes to Microsoft Lists landing page until you provide an approved specific private URL.
+
+G. PUBLIC GITHUB DASHBOARD
+Static GitHub Pages CANNOT securely read the private SharePoint list directly. Publishing counts or pins automatically requires a separate school-approved, server-side process that exports aggregate or specifically public-approved resource information. Do not place Microsoft credentials, app secrets, or private list data in HTML or public JSON. HTTP connectors may require a Premium license; do not promise 'free automated GitHub updates' until technical approach and permissions are verified.
+The public JSON in this pack displays a reported water dispenser awaiting verification. When genuinely verified and approved for public release, the coordinator may change the corresponding values using an accurate, non-identifying record. Do not mark 'verified_in_service' without the approvals.
+
+H. COST AND WATER SAFETY
+'No new COOL-LECTIVE project cash expenditure' is appropriate ONLY if documented. Donated equipment still has economic value and potential water, power and maintenance costs. A newly installed dispenser should not be portrayed as a safe drinking-water resource until source, hygiene/condition, accessibility and maintenance have been appropriately checked.
+
+QUICK ACCEPTANCE TEST
+1. A second DepEd account submits a DEMO report via GitHub > REPORT A ZONE > Microsoft Forms.
+2. See it in private COOLLECTIVE_REPORTS with status Submitted and 0 points.
+3. Assigned verifier receives approval; test refusal and approve on separate demo records.
+4. Verify that no reporter can self-approve and demo records award no real points.
+5. Create 'Water dispenser — Reported Installed / For Check' in COOLLECTIVE_ACTIONS, with real source details only after authorization.
+6. Verify approval action works; record recheck schedule.
+7. Public site must NOT show it as an approved drinking-water point until separately approved for public publication.

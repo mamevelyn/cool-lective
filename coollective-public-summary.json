@@ -4,5 +4,20 @@
   "reportsReceived": null,
   "underReview": null,
   "validated": null,
-  "actionsRecorded": null
+  "actionsRecorded": null,
+  "pilotAssets": [
+    {
+      "type": "water_dispenser",
+      "label": "Water dispenser",
+      "status": "reported_pending_check",
+      "publicReleaseApproved": false,
+      "checkedByAuthorizedPerson": false,
+      "waterServiceConfirmed": false,
+      "noNewProjectCashOutlayConfirmed": false,
+      "publicLocationApproved": false,
+      "publicLocation": null,
+      "nextRecheckDate": null,
+      "note": "Reported as installed by the project team; not yet independently verified. No public water-point or zero-cost claim."
+    }
+  ]
 }
