@@ -371,6 +371,29 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 .map-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:16px;padding-top:14px;border-top:1px dashed #C9DAD4}.map-legend span{font-size:10px;font-weight:800;color:#546a64}.map-legend i{display:inline-block;width:10px;height:10px;margin-right:5px;border-radius:50%;vertical-align:-1px}.legend-school{background:var(--navy)}.legend-exposed{background:#C84B31}.legend-shade{background:var(--green)}.legend-water{background:var(--teal)}.legend-wait{background:var(--orange)}
 @media(max-width:700px){.corridor-title{display:block}.corridor-title small{display:block;text-align:left;margin-top:4px}.corridor-route{grid-template-columns:1fr;gap:10px;padding-left:6px}.route-line{width:8px;height:auto;left:25px;right:auto;top:10px;bottom:10px;background:linear-gradient(var(--navy),var(--orange),#C84B31,var(--green),var(--teal))}.route-node{display:grid;grid-template-columns:52px 1fr;text-align:left;align-items:center}.route-node i{grid-row:1/3;margin:0}.route-node b,.route-node small{padding-left:6px}}
 
+
+/* COOL-LECTIVE online reporting integration (pilot) */
+.online-report-card{margin:0 0 18px;border:1px solid #B9DFD5;background:linear-gradient(130deg,#FFFDF9,#ECF8F5)}
+.online-report-topline,.online-summary-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.online-report-status{font-size:.69rem;letter-spacing:.04em;font-weight:900;color:var(--teal);background:#E6F5F0;border-radius:999px;padding:7px 10px}
+.online-report-card h3{font-size:1.32rem;margin:12px 0 7px}.online-report-card p{line-height:1.5;max-width:850px}
+.online-submit-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;margin:6px 0 7px;text-decoration:none!important}
+/* The old on-device mock reporting form cannot submit to SharePoint. Hide it from the public pilot UX. */
+#report>.grid.two>article:first-child{display:none!important}
+#report>.grid.two{grid-template-columns:minmax(0,1fr)}
+.online-summary-card{margin:15px 0 17px;border-color:#CCE5DF}
+.online-summary-card h3{margin:7px 0}.online-summary-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:15px 0}
+.online-summary-metric{padding:15px;background:#F1F9F6;border:1px solid #D9E8E3;border-radius:14px}
+.online-summary-metric span,.online-summary-metric strong,.online-summary-metric small{display:block}
+.online-summary-metric span{font-size:.67rem;color:var(--muted);font-weight:900;letter-spacing:.06em}
+.online-summary-metric strong{font-size:2.1rem;line-height:1.35;color:var(--teal);font-variant-numeric:tabular-nums}
+.online-summary-metric small{font-size:.73rem;color:var(--muted)}
+.local-demo-details{margin:0 0 18px;border:1px solid #E2ECE7;border-radius:17px;padding:13px;background:#F9FBFA}
+.local-demo-details summary{cursor:pointer;font-weight:850;color:var(--navy);padding:3px 5px}
+.local-demo-details[open] summary{margin-bottom:15px}
+@media(max-width:780px){.online-summary-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){.online-summary-metrics{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -634,6 +657,14 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
       <p class="notice"><b>REPORT A ZONE is the community reporting channel of COOL-LECTIVE.</b> It allows a user to identify a condition that may require further checking. A submitted report is not automatically treated as verified evidence and will not enter the Evidence Dashboard until it passes the approved checking and validation process.</p>
     </div>
   </div>
+  <!-- Secure Microsoft Forms -> Power Automate -> private DepEd SharePoint list. -->
+  <article class="card online-report-card" aria-label="Online Report A Zone submission">
+    <div class="online-report-topline"><span class="kicker teal-text">CONNECTED PILOT REPORTING</span><span class="online-report-status"><span aria-hidden="true">●</span> MICROSOFT FORMS</span></div>
+    <h3>Submit a community observation online</h3>
+    <p>Your report is submitted through DepEd Microsoft Forms and routed to the private COOLLECTIVE_REPORTS list for checking. Submitting a report does not mean the observation is validated.</p>
+    <a class="btn teal online-submit-btn" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gKvjQCQgo0W_dnoHYaJNKf38LjmdTItEmZ16oPfJJmtUREw0UThSSDhJTVhDUVBQQ09FUUg0UVZPSC4u" target="_blank" rel="noopener noreferrer" aria-label="Open official COOL-LECTIVE Microsoft Forms pilot reporting in a new tab">SUBMIT REPORT ONLINE <span aria-hidden="true">↗</span></a>
+    <p class="privacy-note"><b>Pilot access:</b> Depending on form settings, a DepEd Microsoft 365 school sign-in may be required. Do not include National ID, LRN, home addresses, diagnoses, or identifying images.</p>
+  </article>
   <div class="grid two">
     <article class="card">
       <span class="kicker orange">REPORT A POSSIBLE CONCERN OR PROTECTIVE RESOURCE</span>
@@ -764,7 +795,26 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
 </section>
 
 <section id="dashboard" class="view">
-  <div class="section-head"><div><span class="kicker teal-text">PHASE 5 · VALIDATION ROADMAP &amp; GOVERNANCE VALUE</span><h2>COMMUNITY EVIDENCE DASHBOARD</h2><p>Turn repeated observations into transparent priorities for school and community action.</p><p class="validation-note"><b>Accountability Flow:</b> Raw community or learner-submitted reports do not go live instantly. Each eligible entry must pass the approved checking and validation process. A designated school validator, School DRRM personnel, or authorized community validator may validate according to the location and approved project roles before information enters the Evidence Dashboard.</p><p class="notice"><b>Validated evidence can help schools, local offices, community partners, and donors see where protection is lacking, who may benefit, and which response is practical. Final technical, financial, and policy decisions remain with authorized offices.</b></p></div><button id="exportData" class="btn light small">Export project data</button></div>
+  <div class="section-head"><div><span class="kicker teal-text">PHASE 5 · VALIDATION ROADMAP &amp; GOVERNANCE VALUE</span><h2>COMMUNITY EVIDENCE DASHBOARD</h2><p>Turn repeated observations into transparent priorities for school and community action.</p><p class="validation-note"><b>Accountability Flow:</b> Raw community or learner-submitted reports do not go live instantly. Each eligible entry must pass the approved checking and validation process. A designated school validator, School DRRM personnel, or authorized community validator may validate according to the location and approved project roles before information enters the Evidence Dashboard.</p><p class="notice"><b>Validated evidence can help schools, local offices, community partners, and donors see where protection is lacking, who may benefit, and which response is practical. Final technical, financial, and policy decisions remain with authorized offices.</b></p></div><button id="exportData" class="btn light small">Export local demo data</button></div>
+  <!-- The public aggregate is separate from restricted Microsoft Lists data. -->
+  <article class="card online-summary-card" aria-labelledby="onlineSummaryTitle">
+    <div class="online-summary-header">
+      <div><span class="kicker teal-text">MICROSOFT 365 PILOT REPORTING</span><h3 id="onlineSummaryTitle">ONLINE REPORT STATUS</h3></div>
+      <button class="btn light small" id="refreshOnlineSummary" type="button">Refresh status</button>
+    </div>
+    <p class="privacy-note">This section displays only privacy-safe aggregate counts when an approved public summary has been published. The private SharePoint list is not accessible from this public website.</p>
+    <div class="online-summary-metrics" aria-live="polite">
+      <div class="online-summary-metric"><span>REPORTS RECEIVED</span><strong id="onlineReportsReceived">—</strong><small>Not automatically validated</small></div>
+      <div class="online-summary-metric"><span>UNDER REVIEW</span><strong id="onlineReportsPending">—</strong><small>Pending authorized checking</small></div>
+      <div class="online-summary-metric"><span>VALIDATED</span><strong id="onlineReportsValidated">—</strong><small>Reviewed and approved evidence</small></div>
+      <div class="online-summary-metric"><span>ACTIONS RECORDED</span><strong id="onlineActionsRecorded">—</strong><small>Documented, not merely proposed</small></div>
+    </div>
+    <p id="onlineSummaryMessage" class="validation-note" role="status">Checking whether an approved public reporting summary is available…</p>
+    <p class="privacy-note" id="onlineSummaryUpdated">No public summary has been published yet.</p>
+    <p class="privacy-note"><b>Authorized coordinators:</b> review actual submissions and report identities only in the private DepEd SharePoint / Microsoft Lists workspace. <a href="https://lists.microsoft.com/" target="_blank" rel="noopener noreferrer">Open Microsoft Lists ↗</a></p>
+  </article>
+  <details class="local-demo-details">
+    <summary>Show local prototype records (device-only demonstration; NOT SharePoint submissions)</summary>
   <div class="governance-title-strip"><strong>School and Community Evidence Review</strong><span>The view shows the full record pipeline. Only authorized validated records count in validated and action metrics.</span></div>
   <div class="metrics"><article class="metric"><span>COMMUNITY LOGS</span><strong id="mObs">0</strong><small>All locally saved records</small></article><article class="metric"><span>VALIDATED</span><strong id="mVal">0</strong><small>Eligible for stakeholder review</small></article><article class="metric"><span>ACTIONED</span><strong id="mAct">0</strong><small>Implemented responses</small></article><article class="metric"><span>MONITORED</span><strong id="mMon">0</strong><small>Rechecked after action</small></article></div>
   <article class="card"><h3>Local priority view</h3><p class="privacy-note">A suspected cause stays a <b>possible contributing factor</b> until repeated observation or appropriate measurement supports it.</p>
@@ -773,8 +823,9 @@ footer{display:flex;justify-content:space-between;gap:20px;align-items:center;pa
       <div class="evidence-example"><strong>School gate waiting area</strong><span>Status: FOR VALIDATION · Check shade, crowding, water or rest access, accessibility, and time of use.</span></div>
       <div class="evidence-example"><strong>School-to-market roadside segment</strong><span>Status: FOR VALIDATION · Compare exposure, shade continuity, protective assets, and user need at morning, midday, and afternoon periods.</span></div>
     </div>
-    <p class="arch-note"><b>Local-first technical architecture:</b> a lightweight local browser data store and edge-based workflow handle observation records, validation status, scoring, dashboard rendering, and data export with minimal compute overhead.</p>
+    <p class="arch-note"><b>Device-only prototype data:</b> these records are saved in the current browser for demonstration. They are not the Microsoft Forms submissions or official SharePoint verification results.</p>
   </article>
+  </details>
   <div class="action-cycle"><div><span>1</span><b>CHECK</b></div><i>→</i><div><span>2</span><b>MAP</b></div><i>→</i><div><span>3</span><b>PLAN</b></div><i>→</i><div><span>4</span><b>ACT</b></div><i>→</i><div><span>5</span><b>TRACK</b></div><i>→</i><div class="recheck"><span>6</span><b>RECHECK</b></div></div>
 </section>
 </main>
@@ -936,5 +987,37 @@ $("#exportData").addEventListener("click",()=>{const blob=new Blob([JSON.stringi
 
 let deferredPrompt=null;const installBtn=$("#installBtn");window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove("hidden")});installBtn.addEventListener("click",async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add("hidden")});
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+
+// Approved, privacy-safe PUBLIC summary only. Never request private SharePoint Lists from GitHub Pages.
+async function loadOnlineReportSummary(){
+  const message=document.getElementById('onlineSummaryMessage');
+  const updated=document.getElementById('onlineSummaryUpdated');
+  const metrics={reportsReceived:'onlineReportsReceived',underReview:'onlineReportsPending',validated:'onlineReportsValidated',actionsRecorded:'onlineActionsRecorded'};
+  Object.values(metrics).forEach(id=>{document.getElementById(id).textContent='—';});
+  message.textContent='Checking for an approved public reporting summary…';
+  updated.textContent='';
+  try{
+    const resp=await fetch('./coollective-public-summary.json?t='+Date.now(),{cache:'no-store'});
+    if(!resp.ok)throw Error('No public summary file');
+    const obj=await resp.json();
+    if(obj.published!==true){
+      message.textContent='Online reporting is connected to private DepEd Microsoft Lists. Public counts are not yet published; this page does not directly access reporter data.';
+      updated.textContent='Verify submitted reports in your authorized Microsoft Lists account.';
+      return;
+    }
+    const keys=Object.keys(metrics);
+    if(!keys.every(k=>Number.isSafeInteger(obj[k])&&obj[k]>=0))throw Error('Invalid summary counts');
+    if(obj.validated>obj.reportsReceived||obj.underReview>obj.reportsReceived||obj.actionsRecorded>obj.reportsReceived)throw Error('Inconsistent summary counts');
+    for(const [key,id] of Object.entries(metrics))document.getElementById(id).textContent=String(obj[key]);
+    message.textContent='Published aggregate from approved project records. The counts may lag behind new submissions; reports are not automatically verified.';
+    updated.textContent=obj.updatedAt?'Summary last updated: '+String(obj.updatedAt).slice(0,24):'Summary updated date not provided.';
+  }catch(err){
+    message.textContent='No approved public summary is available yet. Incoming reports remain private in Microsoft Lists; no live report count is claimed here.';
+    updated.textContent='The project coordinator can publish the separate, non-personal summary JSON file after review.';
+  }
+}
+document.getElementById('refreshOnlineSummary').addEventListener('click',loadOnlineReportSummary);
+loadOnlineReportSummary();
+
 </script>
 </body></html>
